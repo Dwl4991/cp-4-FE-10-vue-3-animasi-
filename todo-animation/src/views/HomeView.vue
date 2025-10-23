@@ -1,49 +1,29 @@
 <script setup>
 import { ref } from "vue";
-
-const showText = ref(false);
 </script>
 
 <template>
   <main>
     <div class="container">
-      <transition name="fade" mode="out-in">
-        <h1 v-if="showText">He;llo world</h1>
-        <h1 v-else="showText">Bye bye</h1>
-      </transition>
-      <button @click="showText = !showText">pijit</button>
+      <input type="text" autofocus />
+      <div>Task 1</div>
+      <div>Task 2</div>
+      <div>Task 3</div>
     </div>
   </main>
 </template>
 
 <style scoped>
-.cotainer {
-  position: relative;
+.container {
+  max-width: 300px;
+  margin: 0 auto;
 }
-h1 {
-  position: absolute;
-}
-button {
-  margin-top: 50px;
-}
-.fade-enter-from {
-  opacity: 0;
-}
-.fade-enter-to {
-  opacity: 1;
-}
-
-.fade-enter-active {
-  transition: all 1s ease;
-}
-
-.fade-leave-from {
-  opacity: 1;
-}
-.fade-leave-to {
-  opacity: 0;
-}
-.fade-leave-active {
-  transition: all 1s ease;
+.container input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
 }
 </style>
