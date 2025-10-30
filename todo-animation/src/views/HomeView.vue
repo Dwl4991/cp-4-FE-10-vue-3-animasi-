@@ -1,5 +1,6 @@
 <script setup>
 import { ref, TransitionGroup } from "vue";
+import gsap from "gsap";
 
 const tasks = ref(["Learn Vue 3", "Learn CSS", "Learn JavaScript"]);
 const newTask = ref("");
@@ -14,14 +15,36 @@ function addTask() {
 function removeTask(index) {
   tasks.value.splice(index, 1);
 }
+function beforeEnter(el) {
+  el.style.opacity = 0;
+  el.style.transform = "translateX(-30px)";
+}
+function enter(el) {
+  gsap.to(el, {
+    opacity: 1,
+    x: 0,
+    duration: 0.5,
+    ease: "power2.out",
+    delay: el.dataset.index * 0.3,
+  });
+}
+function afterEnter() {
+  console.log("After enter:");
+}
+function beforeLeave() {
+  console.log("Before leave:");
+}
+function afterLeave() {
+  console.log("After leave:");
+}
 </script>
 
 <template>
   <main>
     <div class="container">
       <input type="text" autofocus v-model="newTask" @keyup.enter="addTask()" />
-      <TransitionGroup name="list">
-        <div class="card-list" v-for="task in tasks" :key="task" @click="removeTask(tasks.indexOf(task))">{{ task }}</div>
+      <TransitionGroup name="list" appear @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter" @before-leave="beforeLeave" @after-leave="afterLeave">
+        <div class="card-list" v-for="task in tasks" :key="task" :data-index="index" @click="removeTask(tasks.indexOf(task))">{{ task }}</div>
       </TransitionGroup>
     </div>
   </main>
@@ -53,17 +76,17 @@ function removeTask(index) {
   cursor: pointer;
 }
 
-.list-enter-from {
+/* .list-enter-from {
   opacity: 0;
   transform: scale(0.6);
-}
-.list-enter-to {
+} */
+/* .list-enter-to {
   opacity: 1;
   transform: scale(1);
 }
 .list-enter-active {
   transition: all 0.5s ease;
-}
+} */
 
 .list-leave-from {
   opacity: 1;
